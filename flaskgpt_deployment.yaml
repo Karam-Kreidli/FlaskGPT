@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flaskgpt
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: flaskgpt
+  template:
+    metadata:
+      labels:
+        app: flaskgpt
+    spec:
+      containers:
+      - name: flaskgpt
+        image: karamkr/flaskgpt:1.1
+        ports:
+        - containerPort: 5000
+  strategy:
+    type: Recreate
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flaskgpt
+spec:
+  type: NodePort
+  selector:
+    app: flaskgpt
+  ports:
+  - port: 80
+    targetPort: 5000
+    nodePort: 30001
+
+# ----
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: flaskgpt
+#   namespace: foo
+# spec:
+#   ingressClassName: nginx
+#   rules:
+#     - host: kubernetes.docker.internal
+#       http:
+#         paths:
+#           - pathType: Prefix
+#             backend:
+#               service:
+#                 name: exampleService
+#                 port:
+#                   number: 80
+#             path: /
