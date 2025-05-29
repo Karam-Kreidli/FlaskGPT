@@ -33,23 +33,3 @@ spec:
   - port: 80
     targetPort: 5000
     nodePort: 30001
-
-# ----
-# apiVersion: networking.k8s.io/v1
-# kind: Ingress
-# metadata:
-#   name: flaskgpt
-#   namespace: foo
-# spec:
-#   ingressClassName: nginx
-#   rules:
-#     - host: kubernetes.docker.internal
-#       http:
-#         paths:
-#           - pathType: Prefix
-#             backend:
-#               service:
-#                 name: exampleService
-#                 port:
-#                   number: 80
-#             path: /
